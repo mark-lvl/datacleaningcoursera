@@ -1,18 +1,32 @@
 setup_env <- function () {
+    ## Create data directory to keep all dataset files in the same folder.
     if (!dir.exists("./data")) {dir.create("./data")}
     
     URL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
-    temporaryFile <- tempfile()
+    
     download.file(URL,destfile = "./data/temp.zip")
     unzip(zipfile = "./data/temp.zip", exdir = "./data/")
+    
+    ## Unlink unneccesary file
     unlink("./data/temp.zip")
 }
 
 merge_all_datasets <- function () {
+    
+    ## Check the existence of data.table library and install it in case of missing.
+    list.of.packages <- c("data.table")
+    new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+    if(length(new.packages)) install.packages(new.packages)
+    
+    ## Load the data.table package
     library(data.table)
+    
+    ## Change the working directory to data directory in order to load data files easily 
     if(!grepl("./data/UCI HAR Dataset", getwd())) {
         setwd("./data/UCI HAR Dataset")    
     }
+    
+    ## Load features labels for dataset
     features <- fread("features.txt")
     
     subject_train <- fread("train/subject_train.txt", col.names = "Subject")
@@ -33,14 +47,15 @@ merge_all_datasets <- function () {
     rbind(train_df, test_df)
 }
 
-extract_mean_std_columns <- function(dt) {
+filter_mean_std_columns <- function(dt) {
     dt[,grep('mean|std',names(dt)), with=FALSE]
 }
 
 descriptive_activity_value <- function(dt) {
-    activity_labels <- c('WALKING','WALKING_UPSTAIRS','WALKING_DOWNSTAIRS','SITTING','STANDING','LAYING')
-
-    dt$Activity <- activity_labels[df$Activity]
+    activity_labels <- fread("activity_labels.txt")
+    activity_labels <- as.character(activity_labels$V2)
+    
+    dt$Activity <- activity_labels[dt$Activity]
     dt
 }
 
