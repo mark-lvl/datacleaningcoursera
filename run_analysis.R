@@ -48,10 +48,11 @@ merge_all_datasets <- function () {
 }
 
 filter_mean_std_columns <- function(dt) {
-    dt[,grep('mean|std',names(dt)), with=FALSE]
+    dt[,grep('^Activity$|^Subject$|mean|std',names(dt)), with=FALSE]
 }
 
 descriptive_activity_value <- function(dt) {
+    ## Reading the activity labels from the original dataset.
     activity_labels <- fread("activity_labels.txt")
     activity_labels <- as.character(activity_labels$V2)
     

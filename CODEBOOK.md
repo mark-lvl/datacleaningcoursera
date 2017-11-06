@@ -35,6 +35,11 @@ All of above procedures is handled within the **merge_all_datasets()** function.
 > samsung <- merge_all_datasets()
 ```
 
+In instruction of tidy data for this dataset we asked for filter all the columns just for columns which contain **mean** or **std** value in, we can use regular expression to nail it and we can apply this filter by calling the **filter_mean_std_columns** function and save the return value over the same dataset holder.
+```sh
+> samsung <- filter_mean_std_columns(samsung)
+```
+
 For naming the dataset features, some abbreviation was used in terms of making the list shorter but it had a negative effect on readability of data which we're trying to expand those abbreviations to their actual words and the meanwhile we'll updating the values of activity columns from activity codes into activity names, (e.g. 1 => 'WALKING', 2 => 'WALKING_UPSTAIRS' and so on). These value are stored in root of dataset directory **"activity_labels.txt"**. For doing what explained here we need to call two functions:
 First, **descriptive_activity_value** which converts activity columns into more descriptive values:
 ```sh

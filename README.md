@@ -17,7 +17,7 @@ In terms of merging all the dataset fractions into a single dataset *(Step.1 in 
 
 In order to filter dataset to columns in which calculated the mean or standard deviation *(Step.2 in instruction)*, we need to call **filter_mean_std_columns** function and it needs to get dataset as parameter. This function simply filters all the columns of the dataset by looking up for **"mean"** or **"std"** in their labels.
 ```sh
-> filter_mean_std_columns(samsung)
+> samsung <- filter_mean_std_columns(samsung)
 ```
 
 There is a written function called **descriptive_activity_value** which can be used in order to alter the Activity column values to descriptive values *(Step.3 in instruction)*. We need to pass the dataset as input parameter and assign the function return value to the same dataset in order to alter the activity column values same as what demonstrated below:
